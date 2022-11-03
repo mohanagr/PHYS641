@@ -16,7 +16,7 @@ def get_deriv(func,pars,dpar,width):
 
 def gauss2d(pars,width):
     # vec = 
-    vec=np.asarray(np.arange(-width,width),dtype='float') 
+    vec=np.asarray(np.arange(-width,width),dtype='float')
     #could have fftfreq convention too. doesn't matter as long as what's predicted matches what's expected.
     amp=pars[0]
     dx=pars[1]
@@ -139,6 +139,7 @@ def get_kernel(map_shape, sig_smooth=100):
     kernel = np.exp(-0.5*(X**2+Y**2)/sig_smooth**2)
     return kernel/kernel.sum()
 
+
 def estimate_ps(mymap, sig_smooth=100):
     "Smooth the PS by 100 k modes"
     
@@ -146,7 +147,7 @@ def estimate_ps(mymap, sig_smooth=100):
     mapft = np.fft.fft2(padmap)
     kernel = get_kernel(padmap.shape,sig_smooth=sig_smooth)
     ps = np.real(mapft*np.conj(mapft))
-    smooth_ps = np.real(np.fft.ifft2(np.fft.fft2(ps)*np.conj(np.fft.fft2(kernel))))
+    smooth_ps = np.real(np.fft.ifft2(np.fft.fft2(ps)*np.fft.fft2(kernel)))
     return smooth_ps
 
 def apply_Ninv(mymap, ps):
